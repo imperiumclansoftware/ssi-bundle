@@ -1,0 +1,26 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  ICS\SsiBundle\Command\:
+    resource: "../src/Command"
+    tags: ['controller.service_arguments']
+  ICS\SsiBundle\Controller\:
+    resource: "../src/Controller"
+    tags: ['controller.service_arguments']
+  ICS\SsiBundle\Service\:
+    resource: "../src/Service"
+    tags: ['controller.service_arguments']
+  ICS\SsiBundle\Security\:
+    resource: "../src/Security"
+    tags: ['controller.service_arguments']
+  ICS\SsiBundle\Repository\:
+    resource: "../src/Repository"
+    tags: ['controller.service_arguments']
+  ICS\SsiBundle\EventListener\DatabaseActivitySubscriber:
+    autowire: true
+    arguments: ['@service_container','@annotation_reader']
+    tags:
+        - { name: 'doctrine.event_subscriber' }
+
