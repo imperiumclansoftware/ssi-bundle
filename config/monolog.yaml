@@ -1,0 +1,16 @@
+monolog:
+    channels: ['db']
+    handlers:
+        db:
+            channels: ['db']
+            type: service
+            id: monolog.db_handler
+services:
+    monolog.db_handler:
+        class: ICS\SsiBundle\Util\MonologDBHandler
+        arguments: ['@doctrine.orm.entity_manager','@security.token_storage']
+    monolog.processor.request:
+        class: ICS\SsiBundle\Util\RequestProcessor
+        arguments: ['@request_stack', '@service_container']
+        tags:
+            - { name: monolog.processor, method: processRecord, handler: db }

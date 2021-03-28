@@ -1,0 +1,49 @@
+{
+    "name": "ics/ssi-bundle",
+    "description": "Bundle security extention",
+    "type": "symfony-bundle",
+    "version": "0.0.1",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Dutas",
+            "email": "david.dutas@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ICS\\SsiBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ICS\\SsiBundle\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "symfony/config": "^4.4|^5.0",
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/event-dispatcher": "^4.4|^5.0",
+        "symfony/framework-bundle": "^4.4|^5.0",
+        "symfony/intl": "^4.4|^5.0",
+        "symfony/string": "^5.0",
+        "symfony/translation": "^4.4|^5.0",
+        "symfony/twig-bundle": "^4.4|^5.0",
+        "symfony/http-client": "^5.2",
+        "symfony/orm-pack": "^2.1",
+        "easycorp/easyadmin-bundle": "^3.2",
+        "symfony/console": "^5.2",
+        "symfony/symfony": "^5.2",
+        "symfony/monolog-bundle": "^3.6"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.30",
+        "symfony/security-bundle": "^5.2"
+    }
+}
