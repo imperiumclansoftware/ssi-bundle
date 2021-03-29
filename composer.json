@@ -2,7 +2,7 @@
     "name": "ics/ssi-bundle",
     "description": "Bundle security extention",
     "type": "symfony-bundle",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "MIT",
     "authors": [
         {
@@ -24,7 +24,7 @@
         "symfony/config": "^4.4|^5.0",
         "symfony/dependency-injection": "^4.4|^5.0",
         "symfony/event-dispatcher": "^4.4|^5.0",
-        "symfony/framework-bundle": "^4.4|^5.0",
+        "symfony/framework-bundle": "^5.2",
         "symfony/intl": "^4.4|^5.0",
         "symfony/string": "^5.0",
         "symfony/translation": "^4.4|^5.0",
@@ -33,8 +33,8 @@
         "symfony/orm-pack": "^2.1",
         "easycorp/easyadmin-bundle": "^3.2",
         "symfony/console": "^5.2",
-        "symfony/symfony": "^5.2",
-        "symfony/monolog-bundle": "^3.6"
+        "symfony/monolog-bundle": "^3.6",
+        "symfony/security-bundle": "^5.2"
     },
     "scripts": {
         "auto-scripts": {
@@ -43,7 +43,6 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.30",
-        "symfony/security-bundle": "^5.2"
+        "symfony/maker-bundle": "^1.30"
     }
 }
