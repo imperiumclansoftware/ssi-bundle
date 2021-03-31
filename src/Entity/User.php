@@ -2,10 +2,10 @@
 
 namespace ICS\SsiBundle\Entity;
 
-use ICS\SsiBundle\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use ICS\SsiBundle\Annotation\Log;
+use ICS\SsiBundle\Repository\UserRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -40,7 +40,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @return integer User identifier
+     * @return int User identifier
      */
     public function getId(): ?int
     {
@@ -106,7 +106,7 @@ class User implements UserInterface
 
     public function getLogMessage()
     {
-        return $this->username . ' (#' . $this->getId() . ')';
+        return $this->username.' (#'.$this->getId().')';
     }
 
     /**
@@ -127,14 +127,19 @@ class User implements UserInterface
     }
 
     /**
-     * Set the value of id
+     * Set the value of id.
      *
-     * @return  self
+     * @return self
      */
     public function setId($id)
     {
         $this->id = $id;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->username;
     }
 }
