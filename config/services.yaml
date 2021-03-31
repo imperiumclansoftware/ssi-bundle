@@ -9,9 +9,6 @@ services:
   ICS\SsiBundle\Controller\:
     resource: "../src/Controller"
     tags: ['controller.service_arguments']
-  ICS\SsiBundle\Service\:
-    resource: "../src/Service"
-    tags: ['controller.service_arguments']
   ICS\SsiBundle\Security\:
     resource: "../src/Security"
     tags: ['controller.service_arguments']
