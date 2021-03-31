@@ -1,4 +1,5 @@
-# ssi-bundle
+# Imperium Clan Software - Ssi Bundle
+
 Symfony bundle for extend security and logging
 
 Installation
