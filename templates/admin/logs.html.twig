@@ -1,0 +1,25 @@
+{% trans_default_domain('ssi') %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{ "Logs"|trans }}</h3>
+            <div id="logContent">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+
+
+
+    });
+
+    function updateLog()
+    {
+         $('#logContent').html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div> Loading logs');
+    }
+
+</script>
