@@ -1,0 +1,21 @@
+<script>
+
+    $(document).ready(function(){
+
+        updateLog();
+
+    });
+
+    function updateLog()
+    {
+         $('#logContent').html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Loading logs');
+
+         $.ajax({
+             url: '{{ path('ics_ssi_log_list') }}'
+         }).done(function(data){
+             $('#logContent').html(data);
+             setTimeout(updateLog,15000);
+         });
+    }
+
+</script>

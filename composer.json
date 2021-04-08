@@ -34,7 +34,8 @@
         "easycorp/easyadmin-bundle": "^3.2",
         "symfony/console": "^5.2",
         "symfony/monolog-bundle": "^3.6",
-        "symfony/security-bundle": "^5.2"
+        "symfony/security-bundle": "^5.2",
+        "ics/navigation-bundle": "^0.0.2"
     },
     "scripts": {
         "auto-scripts": {
@@ -43,6 +44,7 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.30"
+        "symfony/maker-bundle": "^1.30",
+        "doctrine/doctrine-fixtures-bundle": "^3.4"
     }
 }

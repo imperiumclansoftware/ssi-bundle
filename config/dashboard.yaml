@@ -1,0 +1,11 @@
+dashboard:
+  dashboards:
+    homepage:
+      nbColumns: 12
+      widgets:
+        lastlogs:
+          entity: ICS\SsiBundle\Entity\Widgets\LogWidget
+          libelle: Derniers journaux
+          icon: fa fa-newspaper
+          group: Security
+          roles: ['ROLE_ADMIN']

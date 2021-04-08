@@ -15,6 +15,9 @@ services:
   ICS\SsiBundle\Repository\:
     resource: "../src/Repository"
     tags: ['controller.service_arguments']
+  ICS\SsiBundle\DataFixtures\:
+    resource: "../src/DataFixtures"
+    tags: ['controller.service_arguments']
   ICS\SsiBundle\EventListener\DatabaseActivitySubscriber:
     autowire: true
     arguments: ['@service_container','@annotation_reader']

@@ -77,7 +77,9 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
         if (!$user) {
             // fail authentication with a custom error
-            $this->container->get('monolog.logger.db')->warning('Connexion error from ' . $this->container->get('request_stack')->getCurrentRequest()->getClientIp());
+            $this->container
+            ->get('monolog.logger.db')
+            ->warning('Connexion error from ' . $this->container->get('request_stack')->getCurrentRequest()->getClientIp().' with username "'.$credentials['username'].'"');
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
 

@@ -40,5 +40,9 @@ class SsiExtension extends Extension implements PrependExtensionInterface
         if (isset($bundles['FrameworkExtraBundle'])) {
             $loader->load('framework_extra.yaml');
         }
+
+        if (isset($bundles['DashboardBundle'])) {
+            $loader->load('dashboard.yaml');
+        }
     }
 }

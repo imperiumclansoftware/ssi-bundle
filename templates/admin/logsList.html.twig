@@ -1,0 +1,37 @@
+{% trans_default_domain('ssi') %}
+<div class="text-muted"><i class="fa fa-newspaper"></i> {{ logs|length }} show on {{ nbElements }} require</div>
+<ul class="list-group">
+{% for log in logs  %}
+
+    {% set class="fa fa-info-circle text-info" %}
+    {% if log.level == 300 %}
+        {% set class="fa fa-exclamation-triangle text-warning" %}
+    {% elseif log.level > 300 %}
+        {% set class="fa fa-exclamation-circle text-danger" %}
+    {% endif %}
+
+
+    <li class="list-group-item">
+    <div class="media">
+        <div class="media-left ml-3">
+            <i class="{{ class }} mr-3"></i>
+            <span class="text-muted">{{ log.createdAt|date('d/m/Y H:i') }}</span>
+        </div>
+        <div class="media-body ml-3 mr-3">
+            {{ log.message }}
+        </div>
+        <div class="media-right">
+        {% if log.username %}
+            <i class="fa fa-user"></i> {{ log.username }}
+        {% else %}
+            <i class="fa fa-ban"></i> {{ 'No User'|trans }}
+        {% endif %}
+
+        </div>
+    </div>
+    </li>
+{% endfor %}
+</ul>
+<div class="">
+
+</div>
