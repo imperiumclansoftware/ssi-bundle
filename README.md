@@ -125,6 +125,11 @@ php bin/console doctrine:fixture:load
 
 ```
 
+The Passwords for created use are :
+
+- admin : `adminPassword`
+- user[1~10] : `userPassword`
+
 ## Log Entity
 
 For log an entity just add `@Log` Annotation on entity declaration
