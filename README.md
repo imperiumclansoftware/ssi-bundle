@@ -125,7 +125,7 @@ php bin/console doctrine:fixture:load
 
 ```
 
-The Passwords for created use are :
+The Passwords for created users are :
 
 - admin : `adminPassword`
 - user[1~10] : `userPassword`
