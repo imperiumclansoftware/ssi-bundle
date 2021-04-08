@@ -1,3 +1,4 @@
+{% trans_default_domain('ssi') %}
 <script>
 
     $(document).ready(function(){
@@ -8,7 +9,7 @@
 
     function updateLog()
     {
-         $('#logContent').html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Loading logs');
+         $('#logContent').html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">{{ 'Loading'|trans }}...</span></div> {{ 'Loading logs'|trans }}');
 
          $.ajax({
              url: '{{ path('ics_ssi_log_list') }}'

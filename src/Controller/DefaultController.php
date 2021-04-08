@@ -12,14 +12,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/" , name="ics_ssi_homepage")
-     */
-    public function index(Request $request)
-    {
-
-        return $this->render('@Ssi/index.html.twig', []);
-    }
-    /**
      * @Route("/login", name="ics_ssi_login")
      */
     public function login(AuthenticationUtils $authenticationUtils, LoggerInterface $logger, Request $request): Response

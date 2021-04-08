@@ -1,5 +1,5 @@
 {% trans_default_domain('ssi') %}
-<div class="text-muted"><i class="fa fa-newspaper"></i> {{ logs|length }} show on {{ nbElements }} require</div>
+<div class="text-muted"><i class="fa fa-newspaper"></i> {{ logs|length }} {{ 'show on'|trans }} {{ nbElements }} {{ 'require'|trans }}</div>
 <ul class="list-group">
 {% for log in logs  %}
 
@@ -24,7 +24,7 @@
         {% if log.username %}
             <i class="fa fa-user"></i> {{ log.username }}
         {% else %}
-            <i class="fa fa-ban"></i> {{ 'No User'|trans }}
+            <span class="text-warning"><i class="fa fa-ban"></i> {{ 'No User'|trans }}</span>
         {% endif %}
 
         </div>

@@ -4,7 +4,7 @@
         <div class="card">
         <div class="card-body">
             <form class="form-inline float-right">
-                    <label class="form-label mr-3">Number of logs</label>
+                    <label class="form-label mr-3">{{ 'Number of logs'|trans }}</label>
                     <select id="nbLogsElements" class="form-control">
                         <option value="10">10</option>
                         <option value="50">50</option>
@@ -30,7 +30,7 @@
 
     function updateLog()
     {
-         $('#logContent').html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div> Loading logs');
+         $('#logContent').html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">{{ 'Loading'|trans }}...</span></div> {{ 'Loading logs'|trans }}');
 
          $.ajax({
              url: '{{ path('ics_ssi_log_list') }}/'+ $('#nbLogsElements').val()

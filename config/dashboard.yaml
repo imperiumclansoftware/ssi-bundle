@@ -5,7 +5,7 @@ dashboard:
       widgets:
         lastlogs:
           entity: ICS\SsiBundle\Entity\Widgets\LogWidget
-          libelle: Derniers journaux
+          libelle: Last logs
           icon: fa fa-newspaper
           group: Security
           roles: ['ROLE_ADMIN']

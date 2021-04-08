@@ -1,7 +1,7 @@
 {% extends "@Dashboard/widget.html.twig" %}
-
+{% trans_default_domain('ssi') %}
 {% block title %}
-    <h3><i class="fa fa-newspaper"></i> Derniers journaux</h3>
+    <h3><i class="fa fa-newspaper"></i> {{ 'Last Logs'|trans }}</h3>
 {% endblock %}
 
 {% block content %}

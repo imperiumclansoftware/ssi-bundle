@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sign-in{% endblock %}
+{% trans_default_domain('ssi') %}
+
+{% block title %}{{ 'Sign-in'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container-fluid mt-3">
 <div class="row">
 <div class="col-4"></div>
 <div class="col-4 card p-3 pt-1 bg-dark text-light">
-<h1 class="text-center text-capitalize my-3">Welcome to Atlantis.</h1>
+<h1 class="text-center text-capitalize my-3">{{'Welcone'|trans}}</h1>
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -15,14 +17,14 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            {{ 'You are logged in as'|trans}} {{ app.user.username }}, <a href="{{ path('app_logout') }}">{{ 'Sign-out'|trans }}</a>
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
+    <h1 class="h3 mb-3 font-weight-normal">{{'Please sign in'|trans }}</h1>
+    <label for="inputUsername">{{ 'Username'|trans }}</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">{{ 'Password'|trans }}</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"
@@ -41,11 +43,9 @@
     #}
 
     <button class="btn btn-lg btn-outline-light mt-3 float-right" type="submit">
-        Sign in
+        {{ 'Sign-in'|trans }}
     </button>
 </form>
-</div>
-<div class="col-4"></div>
 </div>
 </div>
 {% endblock %}
