@@ -30,8 +30,8 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
     {
         return [
             Events::postPersist,
-            Events::postRemove,
             Events::postUpdate,
+            Events::preRemove,
         ];
     }
 
@@ -46,7 +46,7 @@ class DatabaseActivitySubscriber implements EventSubscriberInterface
         }
     }
 
-    public function postRemove(LifecycleEventArgs $args): void
+    public function preRemove(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
         if ($this->isLoggable($entity, 'delete')) {
