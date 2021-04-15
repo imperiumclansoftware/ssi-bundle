@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a057a918fd27245601ceef22c6d2edc",
+    "content-hash": "35b6b9b2578d8955b76e39fe8eae26e3",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1760,17 +1760,54 @@
             "time": "2021-01-14T21:52:44+00:00"
         },
         {
-            "name": "ics/navigation-bundle",
+            "name": "ics/dashboard-bundle",
             "version": "0.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/imperiumclansoftware/navigation-bundle.git",
-                "reference": "8d09611dc450caf7d666e8ba7d193cbd6f664299"
+                "url": "https://github.com/imperiumclansoftware/dashboard-bundle.git",
+                "reference": "0911811f013475f4a152dc1c569e13efbbd09da2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imperiumclansoftware/navigation-bundle/zipball/8d09611dc450caf7d666e8ba7d193cbd6f664299",
-                "reference": "8d09611dc450caf7d666e8ba7d193cbd6f664299",
+                "url": "https://api.github.com/repos/imperiumclansoftware/dashboard-bundle/zipball/0911811f013475f4a152dc1c569e13efbbd09da2",
+                "reference": "0911811f013475f4a152dc1c569e13efbbd09da2",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "^5.2",
+                "symfony/orm-pack": "^2.1",
+                "symfony/security-bundle": "^5.2",
+                "symfony/twig-bundle": "^5.2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "ICS\\DashboardBundle\\": "/src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Bundle de gestion des tableaux de bord",
+            "support": {
+                "issues": "https://github.com/imperiumclansoftware/dashboard-bundle/issues",
+                "source": "https://github.com/imperiumclansoftware/dashboard-bundle/tree/v0.0.3"
+            },
+            "time": "2021-04-09T13:45:52+00:00"
+        },
+        {
+            "name": "ics/navigation-bundle",
+            "version": "0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imperiumclansoftware/navigation-bundle.git",
+                "reference": "823a61267a874ba552f4ed6f9ddc2c117e4c37a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imperiumclansoftware/navigation-bundle/zipball/823a61267a874ba552f4ed6f9ddc2c117e4c37a1",
+                "reference": "823a61267a874ba552f4ed6f9ddc2c117e4c37a1",
                 "shasum": ""
             },
             "require": {
@@ -1791,9 +1828,9 @@
             "description": "Bundle for symfony navigation",
             "support": {
                 "issues": "https://github.com/imperiumclansoftware/navigation-bundle/issues",
-                "source": "https://github.com/imperiumclansoftware/navigation-bundle/tree/v0.0.3"
+                "source": "https://github.com/imperiumclansoftware/navigation-bundle/tree/v0.0.4"
             },
-            "time": "2021-04-14T17:46:26+00:00"
+            "time": "2021-04-15T08:54:52+00:00"
         },
         {
             "name": "laminas/laminas-code",
