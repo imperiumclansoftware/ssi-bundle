@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35b6b9b2578d8955b76e39fe8eae26e3",
+    "content-hash": "8dea0fe5a9e48c3af02372b34a91e8d3",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1798,22 +1798,25 @@
         },
         {
             "name": "ics/navigation-bundle",
-            "version": "0.0.4",
+            "version": "0.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/imperiumclansoftware/navigation-bundle.git",
-                "reference": "823a61267a874ba552f4ed6f9ddc2c117e4c37a1"
+                "reference": "bf010bbbe1be1b6b0e42a9846b9da9a6cb444a69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imperiumclansoftware/navigation-bundle/zipball/823a61267a874ba552f4ed6f9ddc2c117e4c37a1",
-                "reference": "823a61267a874ba552f4ed6f9ddc2c117e4c37a1",
+                "url": "https://api.github.com/repos/imperiumclansoftware/navigation-bundle/zipball/bf010bbbe1be1b6b0e42a9846b9da9a6cb444a69",
+                "reference": "bf010bbbe1be1b6b0e42a9846b9da9a6cb444a69",
                 "shasum": ""
             },
             "require": {
                 "symfony/config": "^5.2",
                 "symfony/framework-bundle": "^5.2",
-                "symfony/orm-pack": "^2.1"
+                "symfony/orm-pack": "^2.1",
+                "symfony/twig-bundle": "^5.2",
+                "twig/extra-bundle": "^3.3",
+                "twig/twig": "^3.3"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -1828,9 +1831,9 @@
             "description": "Bundle for symfony navigation",
             "support": {
                 "issues": "https://github.com/imperiumclansoftware/navigation-bundle/issues",
-                "source": "https://github.com/imperiumclansoftware/navigation-bundle/tree/v0.0.4"
+                "source": "https://github.com/imperiumclansoftware/navigation-bundle/tree/v0.0.5"
             },
-            "time": "2021-04-15T08:54:52+00:00"
+            "time": "2021-04-15T09:28:52+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -6608,6 +6611,84 @@
                 }
             ],
             "time": "2021-01-27T10:01:46+00:00"
+        },
+        {
+            "name": "twig/extra-bundle",
+            "version": "v3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/twig-extra-bundle.git",
+                "reference": "e2d27a86c3f47859eb07808fa7c8679d30fcbdde"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/twig-extra-bundle/zipball/e2d27a86c3f47859eb07808fa7c8679d30fcbdde",
+                "reference": "e2d27a86c3f47859eb07808fa7c8679d30fcbdde",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3|^8.0",
+                "symfony/framework-bundle": "^4.3|^5.0",
+                "symfony/twig-bundle": "^4.3|^5.0",
+                "twig/twig": "^2.4|^3.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^4.4.9|^5.0.9",
+                "twig/cache-extra": "^3.0",
+                "twig/cssinliner-extra": "^2.12|^3.0",
+                "twig/html-extra": "^2.12|^3.0",
+                "twig/inky-extra": "^2.12|^3.0",
+                "twig/intl-extra": "^2.12|^3.0",
+                "twig/markdown-extra": "^2.12|^3.0",
+                "twig/string-extra": "^2.12|^3.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Twig\\Extra\\TwigExtraBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "A Symfony bundle for extra Twig extensions",
+            "homepage": "https://twig.symfony.com",
+            "keywords": [
+                "bundle",
+                "extra",
+                "twig"
+            ],
+            "support": {
+                "source": "https://github.com/twigphp/twig-extra-bundle/tree/v3.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/twig/twig",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-02-06T21:13:17+00:00"
         },
         {
             "name": "twig/twig",
