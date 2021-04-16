@@ -1,10 +1,9 @@
 <?php
 
-namespace ICS\SsiBundle\Command\User;
+namespace ICS\SsiBundle\Command\Account;
 
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use ICS\SsiBundle\Entity\User;
+use ICS\SsiBundle\Entity\Account;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,7 +13,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\TranslatableMessage;
-use Symfony\Component\Translation\Translator;
 
 class CreateCommand  extends Command
 {
@@ -85,7 +83,7 @@ class CreateCommand  extends Command
             $admin = $this->io->confirm($userAdminMessage);
         }
 
-        $user = new User();
+        $user = new Account();
         $user->setUsername($username);
         $user->setPassword($this->encoder->encodePassword($user, $password));
         if ($admin) {

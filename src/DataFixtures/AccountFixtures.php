@@ -4,10 +4,10 @@ namespace ICS\SsiBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use ICS\SsiBundle\Entity\User;
+use ICS\SsiBundle\Entity\Account;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserFixtures extends Fixture
+class AccountFixtures extends Fixture
 {
     private $encoder;
 
@@ -18,7 +18,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $admin = new User();
+        $admin = new Account();
         $admin->setUsername('admin')
                 ->setPassword($this->encoder->encodePassword($admin,'adminPassword'))
                 ->setRoles(['ROLE_ADMIN']);
@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
 
         for($i=1;$i<=10;$i++)
         {
-            $user=new User();
+            $user=new Account();
             $user->setUsername('user'.$i)
                     ->setPassword($this->encoder->encodePassword($user,'userPassword'))
                     ->setRoles(['ROLE_USER']);

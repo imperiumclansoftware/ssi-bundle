@@ -3,7 +3,7 @@ security:
         ROLE_USER: ~
         ROLE_ADMIN: [ROLE_USER]
     encoders:
-        ICS\SsiBundle\Entity\User:
+        ICS\SsiBundle\Entity\Account:
             algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -11,7 +11,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         ssi_user_provider:
             entity:
-                class: ICS\SsiBundle\Entity\User
+                class: ICS\SsiBundle\Entity\Account
                 property: username
     firewalls:
         main:

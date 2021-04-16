@@ -4,17 +4,17 @@ namespace ICS\SsiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ICS\SsiBundle\Annotation\Log;
-use ICS\SsiBundle\Repository\UserRepository;
+use ICS\SsiBundle\Repository\AccountRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Entity(repositoryClass=AccountRepository::class)
  * @ORM\Table(schema="ssi")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @Log(actions={"all"},property="logMessage")
  */
-class User implements UserInterface
+class Account implements UserInterface
 {
     /**
      * @ORM\Id()

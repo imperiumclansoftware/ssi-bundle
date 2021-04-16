@@ -3,7 +3,7 @@
 namespace ICS\SsiBundle\Security;
 
 use Doctrine\ORM\EntityManagerInterface;
-use ICS\SsiBundle\Entity\User;
+use ICS\SsiBundle\Entity\Account;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -73,7 +73,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
+        $user = $this->entityManager->getRepository(Account::class)->findOneBy(['username' => $credentials['username']]);
 
         if (!$user) {
             // fail authentication with a custom error

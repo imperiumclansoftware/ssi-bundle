@@ -1,6 +1,6 @@
 <?php
 
-namespace ICS\SsiBundle\Command\User;
+namespace ICS\SsiBundle\Command\Account;
 
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
