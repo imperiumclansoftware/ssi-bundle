@@ -93,7 +93,7 @@ Add this MenuItems in your dashboard `Controller/Admin/DashboardController.php`
         {
             // ...
             yield MenuItem::section('Security', 'fa fa-shield');
-            yield MenuItem::linkToCrud('Accounts', 'fa fa-users', Account::class);
+            yield MenuItem::linkToCrud('Accounts', 'fa fa-user-circle', Account::class);
             yield MenuItem::linkToCrud('Logs', 'fa fa-newspaper', Log::class);
             // ...
         }

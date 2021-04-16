@@ -1,5 +1,23 @@
 Security: Sécurité
 Users: Utilisateurs
+Accounts: Comptes
 Logs: journaux
 User: Utilisateur
+Account: Compte
 Log: Entrée de journal
+ID: Identifiant
+Username: Nom d'utilisateur
+Password: Mot de passe
+Roles: Rôles
+ROLE_ADMIN: Administrateurs
+ROLE_USER: Utilisateurs
+
+# Admin messages
+Password complexity is necessary dor security.: Un mot de passe complexe est indispensable pour la sécurité.
+Define user roles for website activity.: Définit les rôles de l'utilisateur pour son activité sur le site.
+Username was unique in database.: Le nom d'utilisateur est unique dans la base de données.
+
+# Journeaux
+Created At: Créer le
+Message: Message
+Level Name: Niveau
