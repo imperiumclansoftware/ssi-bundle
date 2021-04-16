@@ -84,7 +84,7 @@ Add this MenuItems in your dashboard `Controller/Admin/DashboardController.php`
 
 ```php
     // Controller/Admin/DashboardController.php
-    use ICS\SsiBundle\Entity\User;
+    use ICS\SsiBundle\Entity\Account;
     use ICS\SsiBundle\Entity\Log;
 
     class DashboardController extends AbstractDashboardController
@@ -93,7 +93,7 @@ Add this MenuItems in your dashboard `Controller/Admin/DashboardController.php`
         {
             // ...
             yield MenuItem::section('Security', 'fa fa-shield');
-            yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class);
+            yield MenuItem::linkToCrud('Accounts', 'fa fa-users', Account::class);
             yield MenuItem::linkToCrud('Logs', 'fa fa-newspaper', Log::class);
             // ...
         }
@@ -153,7 +153,7 @@ for `property` make a property than return the log message you want
      * @ORM\Table()
      * @Log(actions={"all"},property="logMessage")
      */
-    class User implements UserInterface
+    class Account implements UserInterface
     {
         /**
          * @ORM\Column(type="string", length=180, unique=true)

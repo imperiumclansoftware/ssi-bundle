@@ -14,7 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserCrudController extends AbstractCrudController
+class AccountCrudController extends AbstractCrudController
 {
     private $encoder;
 
@@ -25,7 +25,7 @@ class UserCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return Account::class;
     }
 
 
