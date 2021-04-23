@@ -10,6 +10,8 @@ use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
 use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,12 +28,12 @@ class KeycloakAuthenticator extends SocialAuthenticator
     private $router;
     private $config;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router, ContainerInterface $container)
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
 	    $this->router = $router;
-        //$this->config= $parameters->get('framework.ssi');
+        $this->config= $container->getParameter('ssi');
     }
 
     public function supports(Request $request)
@@ -58,11 +60,12 @@ class KeycloakAuthenticator extends SocialAuthenticator
         // Test if user exist
         $user = $this->em->getRepository(Account::class)
             ->findOneBy(['email' => $email]);
-        if($user==null && $this->config['keycloak_enabled'])
+        if($user==null && $this->config['keycloak']['auto_create_user'])
         {
             // Else create one
             $user=new Account();
             $user->setEmail($keycloakUser->getEmail());
+            $user->setKeycloakCreate(true);
 
         }
 
@@ -102,7 +105,10 @@ class KeycloakAuthenticator extends SocialAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
-
+        return new RedirectResponse(
+            $this->router->generate('ics_ssi_login'), // might be the site, where users choose their oauth provider
+            Response::HTTP_TEMPORARY_REDIRECT
+        );
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 

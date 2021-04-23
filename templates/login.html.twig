@@ -48,4 +48,11 @@
 </form>
 </div>
 </div>
+<div class="row">
+{% if keycloak %}
+    <div class="col-12 mt-3 text-center">
+        <a class="btn btn-secondary" href="{{ path('ics_ssi_login_keycloak') }}"><i class="fab fa-keycdn"></i> Authenticate by Keycloak</a>
+    </div>
+{% endif %}
+</div>
 {% endblock %}

@@ -9,7 +9,7 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treebuilder = new TreeBuilder('ssibundle');
+        $treebuilder = new TreeBuilder('ssi');
 
         $rootNode =$treebuilder->getRootNode();
         $rootNode

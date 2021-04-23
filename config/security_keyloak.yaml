@@ -4,4 +4,3 @@ security:
             guard:
                 authenticators:
                     - ICS\SsiBundle\Security\KeycloakAuthenticator
-                entry_point: ICS\SsiBundle\Security\KeycloakAuthenticator

@@ -34,7 +34,11 @@ class DefaultController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('@Ssi/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('@Ssi/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'keycloak' => isset($_ENV['KEYCLOAK_URL']),
+        ]);
     }
 
     /**

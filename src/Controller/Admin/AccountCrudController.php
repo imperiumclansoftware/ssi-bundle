@@ -5,7 +5,9 @@ namespace ICS\SsiBundle\Controller\Admin;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
@@ -40,6 +42,14 @@ class AccountCrudController extends AbstractCrudController
             TextField::new('username')
                 ->setLabel('Username')
                 ->setHelp('Username was unique in database.'),
+            EmailField::new('email')
+                ->setLabel('E-Mail')
+                ->setHelp('E-Mail was unique in database.'),
+            BooleanField::new('keycloakCreate')
+                ->hideOnDetail()
+                ->hideOnForm(),
+            TextField::new('firstname'),
+            TextField::new('lastname'),
             ChoiceField::new('roles')
                 ->setChoices($roles)
                 ->allowMultipleChoices()
@@ -86,17 +96,21 @@ class AccountCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $doctrine, $user): void
     {
-        $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
-        $user->setPassword($encodedPassword);
-
+        if($user->getPassword()!=null)
+        {
+            $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encodedPassword);
+        }
         parent::persistEntity($doctrine, $user);
     }
 
     public function updateEntity(EntityManagerInterface $doctrine, $user): void
     {
-        $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
-        $user->setPassword($encodedPassword);
-
+        if($user->getPassword()!=null)
+        {
+            $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encodedPassword);
+        }
         parent::updateEntity($doctrine, $user);
     }
 }

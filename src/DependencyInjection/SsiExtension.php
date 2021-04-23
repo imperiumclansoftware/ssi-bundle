@@ -21,9 +21,9 @@ class SsiExtension extends Extension implements PrependExtensionInterface
 
         $configuration = new Configuration();
         $configs = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('ssibundle', $configs);
+        $container->setParameter('ssi', $configs);
 
-        $ssi=$container->getParameter('ssibundle');
+
 
 
     }

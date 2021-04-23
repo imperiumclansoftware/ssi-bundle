@@ -28,15 +28,15 @@ class Account implements UserInterface
      */
     private $username;
     /**
-     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $email;
     /**
-     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstName;
     /**
-     * @ORM\Column(type="string", length=180, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastName;
     /**
@@ -49,6 +49,11 @@ class Account implements UserInterface
      * @ORM\Column(type="string", nullable=true)
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $keycloakCreate=false;
 
     /**
      * @return int User identifier
@@ -97,12 +102,12 @@ class Account implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public function getPassword()
     {
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword($password): self
     {
         $this->password = $password;
 
@@ -218,5 +223,25 @@ class Account implements UserInterface
             $name= $this->getUsername();
         }
         return $name;
+    }
+
+    /**
+     * Get the value of keycloakCreate
+     */
+    public function getKeycloakCreate()
+    {
+        return $this->keycloakCreate;
+    }
+
+    /**
+     * Set the value of keycloakCreate
+     *
+     * @return  self
+     */
+    public function setKeycloakCreate($keycloakCreate)
+    {
+        $this->keycloakCreate = $keycloakCreate;
+
+        return $this;
     }
 }
