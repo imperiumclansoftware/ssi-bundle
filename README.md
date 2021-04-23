@@ -167,3 +167,30 @@ for `property` make a property than return the log message you want
 
     }
 ```
+
+## Configure keycloak authentification
+
+For enabled a keycloak authentification add this lines in `.env` file :
+
+```bash
+    #Keycloak configuration
+
+    KEYCLOAK_URL="<url of keycloak server>"
+    KEYCLOAK_REALM="<realm for keycloak>"
+    KEYCLOAK_CLIENT_ID="<client_id of keycloak server>"
+    KEYCLOAK_CLIENT_SECRET="<secret of client_id"
+
+```
+
+you can enabled keycloak user auto creation :
+
+```yaml
+# config/packages/ssi.yaml
+
+ssi:
+  keycloak:
+    auto_create_user: true
+
+```
+
+by default unknow user as ignored.
