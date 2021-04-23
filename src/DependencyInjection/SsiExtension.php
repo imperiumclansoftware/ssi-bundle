@@ -2,7 +2,6 @@
 
 namespace ICS\SsiBundle\DependencyInjection;
 
-use Symfony\Bundle\FrameworkBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -11,16 +10,22 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class SsiExtension extends Extension implements PrependExtensionInterface
 {
+
     /**
      * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration(false);
-        $configs = $this->processConfiguration($configuration, $configs);
-
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config/'));
         $loader->load('services.yaml');
+
+        $configuration = new Configuration();
+        $configs = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('ssibundle', $configs);
+
+        $ssi=$container->getParameter('ssibundle');
+
+
     }
 
     /**
@@ -44,5 +49,12 @@ class SsiExtension extends Extension implements PrependExtensionInterface
         if (isset($bundles['DashboardBundle'])) {
             $loader->load('dashboard.yaml');
         }
+
+        if(isset($_ENV['KEYCLOAK_URL']) && $_ENV['KEYCLOAK_URL']!=null)
+        {
+            $loader->load('security_keyloak.yaml');
+            $loader->load('knpu_oauth2_client.yaml');
+        }
+
     }
 }
