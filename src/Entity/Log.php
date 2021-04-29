@@ -2,9 +2,18 @@
 
 namespace ICS\SsiBundle\Entity;
 
+/**
+ * File of Log entity
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Log Entity
+ *
+ * @package SsiBundle\Entity
  * @ORM\Entity(repositoryClass="ICS\SsiBundle\Repository\LogRepository")
  * @ORM\Table(schema="ssi")
  * @ORM\HasLifecycleCallbacks

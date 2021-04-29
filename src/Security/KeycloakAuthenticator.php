@@ -2,6 +2,11 @@
 
 namespace ICS\SsiBundle\Security;
 
+/**
+ * File for keycloak authenticator
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
 
 use Doctrine\ORM\EntityManagerInterface;
 use ICS\SsiBundle\Entity\Account;
@@ -18,13 +23,46 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * Keycloak Authenticator
+ *
+ * @package SsiBundle\Security
+ */
 class KeycloakAuthenticator extends SocialAuthenticator
 {
+    /**
+     * Keycloak user registry
+     *
+     * @var ClientRegistry
+     */
     private $clientRegistry;
+    /**
+     * Entity manager
+     *
+     * @var EntityManagerInterface
+     */
     private $em;
+    /**
+     * Route manager
+     *
+     * @var RouterInterface
+     */
     private $router;
+    /**
+     * Application container
+     *
+     * @var ContainerInterface
+     */
     private $config;
 
+    /**
+     * KeycloakAuthenticator constructor
+     *
+     * @param ClientRegistry $clientRegistry
+     * @param EntityManagerInterface $em
+     * @param RouterInterface $router
+     * @param ContainerInterface $container
+     */
     public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router, ContainerInterface $container)
     {
         $this->clientRegistry = $clientRegistry;
@@ -33,19 +71,39 @@ class KeycloakAuthenticator extends SocialAuthenticator
         $this->config= $container->getParameter('ssi');
     }
 
+    /**
+     * Callback management
+     *
+     * @param Request $request
+     * @return bool
+     */
     public function supports(Request $request)
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'ics_keycloak_check';
     }
 
+    /**
+     * Get credentials for keycloak user
+     * this method is only called if supports() returns true
+     *
+     * @param Request $request
+     * @return League\OAuth2\Client\Token\AccessToken|void
+     */
     public function getCredentials(Request $request)
     {
-        // this method is only called if supports() returns true
+
 
         return $this->fetchAccessToken($this->getKeycloakClient());
     }
 
+    /**
+     * Obtain an Account for keycloak user
+     *
+     * @param League\OAuth2\Client\Token\AccessToken $credentials
+     * @param UserProviderInterface $userProvider
+     * @return Account
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         /* @var KeycloakResourceOwner $keycloakUser */
@@ -80,6 +138,8 @@ class KeycloakAuthenticator extends SocialAuthenticator
     }
 
     /**
+     * Obtain keycloak client
+     *
      * @return KeycloakClient
      */
     private function getKeycloakClient()
@@ -88,14 +148,28 @@ class KeycloakAuthenticator extends SocialAuthenticator
             ->getClient('keycloak_main');
 	}
 
+    /**
+     * Execute on oAuth success
+     *
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param mixed $providerKey
+     * @return RedirectResponse
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // change "app_homepage" to some route in your app
         $targetUrl = $this->router->generate('homepage');
 
         return new RedirectResponse($targetUrl);
     }
 
+    /**
+     * Execute on oAuth Failure
+     *
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return RedirectResponse
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         return new RedirectResponse(
@@ -107,6 +181,10 @@ class KeycloakAuthenticator extends SocialAuthenticator
     /**
      * Called when authentication is needed, but it's not sent.
      * This redirects to the 'login'.
+     *
+     * @param Request $request
+     * @param AuthenticationException $authException
+     * @return RedirectResponse
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {

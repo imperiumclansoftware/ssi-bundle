@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+        xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <title>SsiBundle documentation</title>
+    <paths>
+        <output>docs/api</output>
+        <cache>docs/cache</cache>
+    </paths>
+    <version number="3.0.0">
+        <api format="php">
+            <source dsn=".">
+                <path>src</path>
+            </source>
+            <extensions>
+                <extension>php</extension>
+            </extensions>
+            <default-package-name>SsiBundle</default-package-name>
+            <include-source>true</include-source>
+            <markers>
+                <marker>TODO</marker>
+                <marker>FIXME</marker>
+            </markers>
+        </api>
+        <guide format="rst">
+            <source dsn=".">
+              <path>support/doc</path>
+            </source>
+            <output>docs</output>
+          </guide>
+    </version>
+</phpdocumentor>

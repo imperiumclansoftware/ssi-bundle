@@ -2,6 +2,12 @@
 
 namespace ICS\SsiBundle\EventListener;
 
+/**
+ * File of Database Activity event subscriber
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
@@ -13,6 +19,11 @@ use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
+/**
+ * Subscriber for entity record logs
+ *
+ * @package SsiBundle\EventListener
+ */
 class DatabaseActivitySubscriber implements EventSubscriberInterface
 {
     private $container;

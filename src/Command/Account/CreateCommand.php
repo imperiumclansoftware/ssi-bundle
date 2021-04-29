@@ -2,6 +2,12 @@
 
 namespace ICS\SsiBundle\Command\Account;
 
+/**
+ * File for create account command
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Doctrine\ORM\EntityManagerInterface;
 use ICS\SsiBundle\Entity\Account;
 use Symfony\Component\Console\Command\Command;
@@ -14,19 +20,51 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 
+/**
+ * Create account command class
+ *
+ * @package SsiBundle\Command\Account
+ */
 class CreateCommand  extends Command
 {
-
+    /**
+     * Command default name
+     *
+     * @var string
+     */
     protected static $defaultName = 'Ssi:User:Create';
-
+    /**
+     * Command application container
+     *
+     * @var ContainerInterface
+     */
     protected $container;
-
+    /**
+     * Entity manager for data access
+     *
+     * @var EntityManagerInterface
+     */
     protected $doctrine;
-
+    /**
+     * Class for account password encodage
+     *
+     * @var UserPasswordEncoderInterface
+     */
     protected $encoder;
-
+    /**
+     * Class for console HMI
+     *
+     * @var SymfonyStyle
+     */
     private $io;
 
+    /**
+     * Class constructor
+     *
+     * @param ContainerInterface $container
+     * @param EntityManagerInterface $doctrine
+     * @param UserPasswordEncoderInterface $encoder
+     */
     public function __construct(ContainerInterface $container, EntityManagerInterface $doctrine, UserPasswordEncoderInterface $encoder)
     {
         parent::__construct();
@@ -35,6 +73,9 @@ class CreateCommand  extends Command
         $this->encoder = $encoder;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $usernameMessage = new TranslatableMessage('User username');
@@ -47,6 +88,9 @@ class CreateCommand  extends Command
             ->setHelp($descriptionMessage);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->io = new SymfonyStyle($input, $output);

@@ -2,12 +2,23 @@
 
 namespace ICS\SsiBundle\DependencyInjection;
 
+/**
+ * File for SsiBundle extension configuration
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+/**
+ * SsiBundle extension
+ *
+ * @package SsiBundle\DependencyInjection
+ */
 class SsiExtension extends Extension implements PrependExtensionInterface
 {
 
@@ -22,10 +33,6 @@ class SsiExtension extends Extension implements PrependExtensionInterface
         $configuration = new Configuration();
         $configs = $this->processConfiguration($configuration, $configs);
         $container->setParameter('ssi', $configs);
-
-
-
-
     }
 
     /**
@@ -55,6 +62,5 @@ class SsiExtension extends Extension implements PrependExtensionInterface
             $loader->load('security_keyloak.yaml');
             $loader->load('knpu_oauth2_client.yaml');
         }
-
     }
 }

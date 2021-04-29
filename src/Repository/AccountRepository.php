@@ -2,6 +2,12 @@
 
 namespace ICS\SsiBundle\Repository;
 
+/**
+ * File of Account entity repository
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use ICS\SsiBundle\Entity\Account;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -10,11 +16,14 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * Account entity repository
+ *
+ * @package SsiBundle\Repository
+ *
  * @method Account|null find($id, $lockMode = null, $lockVersion = null)
  * @method Account|null findOneBy(array $criteria, array $orderBy = null)
  * @method Account[]    findAll()
  * @method Account[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method void         upgradePassword(UserInterface $user, string $newEncodedPassword)
  */
 class AccountRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {

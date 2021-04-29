@@ -2,9 +2,18 @@
 
 namespace ICS\SsiBundle\Annotation;
 
+/**
+ * File for @log annotation
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Doctrine\Common\Annotations\Annotation;
 
 /**
+ * Log anootation class
+ *
+ * @package SsiBundle\Annotation
  * @Annotation
  * @Target("CLASS")
  */

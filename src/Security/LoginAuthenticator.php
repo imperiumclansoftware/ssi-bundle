@@ -2,6 +2,12 @@
 
 namespace ICS\SsiBundle\Security;
 
+/**
+ * File for login/password authenticator
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Doctrine\ORM\EntityManagerInterface;
 use ICS\SsiBundle\Entity\Account;
 use Psr\Log\LoggerInterface;
@@ -22,20 +28,74 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
+/**
+ * Login/password authenticator class
+ *
+ * @package SsiBundle\Security
+ */
 class LoginAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
+    /**
+     * Route for login/password form
+     */
     public const LOGIN_ROUTE = 'ics_ssi_login';
 
+    /**
+     * Entity manager
+     *
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+    /**
+     * Url Generator
+     *
+     * @var UrlGeneratorInterface
+     */
     private $urlGenerator;
+    /**
+     * Token manager
+     *
+     * @var CsrfTokenManagerInterface
+     */
     private $csrfTokenManager;
+    /**
+     * Password encoder
+     *
+     * @var UserPasswordEncoderInterface
+     */
     private $passwordEncoder;
+    /**
+     * Application container
+     *
+     * @var ContainerInterface
+     */
     private $container;
+    /**
+     * Log manager
+     *
+     * @var LoggerInterface
+     */
     private $logger;
 
-    public function __construct(EntityManagerInterface $entityManager, ContainerInterface $container, LoggerInterface $logger, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    /**
+     * LoginAuthenticator constructor
+     *
+     * @param EntityManagerInterface $entityManager
+     * @param ContainerInterface $container
+     * @param LoggerInterface $logger
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param CsrfTokenManagerInterface $csrfTokenManager
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     */
+    public function __construct(
+                        EntityManagerInterface $entityManager,
+                        ContainerInterface $container,
+                        LoggerInterface $logger,
+                        UrlGeneratorInterface $urlGenerator,
+                        CsrfTokenManagerInterface $csrfTokenManager,
+                        UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
@@ -45,12 +105,24 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         $this->container = $container;
     }
 
+    /**
+     *  Callback management
+     *
+     * @param Request $request
+     * @return bool
+     */
     public function supports(Request $request)
     {
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
-
+    /**
+     * Get credentials for login/password user
+     * this method is only called if supports() returns true
+     *
+     * @param Request $request
+     * @return mixed[]
+     */
     public function getCredentials(Request $request)
     {
         $credentials = [
@@ -66,6 +138,13 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         return $credentials;
     }
 
+    /**
+     * Obtain an Account for keycloak user
+     *
+     * @param mixed[] $credentials
+     * @param UserProviderInterface $userProvider
+     * @return Account
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
@@ -76,6 +155,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         $user = $this->entityManager->getRepository(Account::class)->findOneBy(['username' => $credentials['username']]);
 
         if (!$user) {
+            $this->container->get('monolog.logger.db')->info('Connexion error with username ' . $credentials['username'] . '.');
             // fail authentication with a custom error
             $this->container
             ->get('monolog.logger.db')
@@ -85,7 +165,13 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
         return $user;
     }
-
+    /**
+     * Check if login/password has valid
+     *
+     * @param mixed[] $credentials
+     * @param UserInterface $user
+     * @return void
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
@@ -93,22 +179,39 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param mixed[] $credentials
+     * @return string
      */
     public function getPassword($credentials): ?string
     {
         return $credentials['password'];
     }
 
+    /**
+     * Execute on authentification success
+     *
+     * @param Request $request
+     * @param TokenInterface $token
+     * @param mixed $providerKey
+     * @return RedirectResponse
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        $this->container->get('monolog.logger.db')->info('User ' . $token->getUser()->getUsername() . ' connected.');
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
 
-        $this->container->get('monolog.logger.db')->info('User ' . $token->getUser()->getUsername() . ' connected.');
         return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 
+    /**
+     * Get login/password HMI route
+     *
+     * @return string
+     */
     protected function getLoginUrl()
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

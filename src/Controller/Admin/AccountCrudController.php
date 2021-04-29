@@ -2,6 +2,12 @@
 
 namespace ICS\SsiBundle\Controller\Admin;
 
+/**
+ * File for Easyadmin Account management
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -15,21 +21,41 @@ use ICS\SsiBundle\Entity\Account;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Easyadmin Account management
+ *
+ * @package SsiBundle\Controller\Admin
+ */
 class AccountCrudController extends AbstractCrudController
 {
+    /**
+     * Encoder for Account password
+     *
+     * @var UserPasswordEncoderInterface
+     */
     private $encoder;
 
+    /**
+     * Class constructor
+     *
+     * @param UserPasswordEncoderInterface $encoder
+     */
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getEntityFqcn(): string
     {
         return Account::class;
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function configureFields(string $pageName): iterable
     {
         $hierarchy = $this->container->get('parameter_bag')->get('security.role_hierarchy.roles');
@@ -65,6 +91,9 @@ class AccountCrudController extends AbstractCrudController
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureFilters(Filters $filters): Filters
     {
         $hierarchy = $this->container->get('parameter_bag')->get('security.role_hierarchy.roles');
@@ -79,6 +108,12 @@ class AccountCrudController extends AbstractCrudController
             );
     }
 
+    /**
+     * Method for compute account roles
+     *
+     * @param array $roles
+     * @return array
+     */
     public function getRoles($roles)
     {
         $result = [];
@@ -94,6 +129,9 @@ class AccountCrudController extends AbstractCrudController
         return $result;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function persistEntity(EntityManagerInterface $doctrine, $user): void
     {
         if($user->getPassword()!=null)
@@ -104,6 +142,9 @@ class AccountCrudController extends AbstractCrudController
         parent::persistEntity($doctrine, $user);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function updateEntity(EntityManagerInterface $doctrine, $user): void
     {
         if($user->getPassword()!=null)

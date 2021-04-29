@@ -1,14 +1,20 @@
 <?php
-// src/AppBundle/Util/RequestProcessor.php
 
 namespace ICS\SsiBundle\Util;
+
+/**
+ * File for RequestProcessor class
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class RequestProcessor
- * @package AppBundle\Util
+ * Class for create log data
+ *
+ * @package SsiBundle\Util
  */
 class RequestProcessor
 {
@@ -19,6 +25,7 @@ class RequestProcessor
 
     /**
      * RequestProcessor constructor.
+     *
      * @param RequestStack $request
      * @param ContainerInterface $container
      */
@@ -28,6 +35,8 @@ class RequestProcessor
     }
 
     /**
+     * Process log record
+     *
      * @param array $record
      * @return array
      */

@@ -2,12 +2,21 @@
 
 namespace ICS\SsiBundle\Entity;
 
+/**
+ * File of Account entity
+ *
+ * @author David Dutas <david.dutas@gmail.com>
+ */
+
 use Doctrine\ORM\Mapping as ORM;
 use ICS\SsiBundle\Annotation\Log;
 use ICS\SsiBundle\Repository\AccountRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * Class represent an user account for application access
+ *
+ * @package SsiBundle\Entity
  * @ORM\Entity(repositoryClass=AccountRepository::class)
  * @ORM\Table(schema="ssi")
  * @ORM\InheritanceType("JOINED")
@@ -17,40 +26,62 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Account implements UserInterface
 {
     /**
+     * Identifier
+     *
+     * @var integer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
+     * Userame
+     *
+     * @var string
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
     /**
+     *  EMail address
+     *
+     * @var string
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $email;
     /**
+     * User firstname
+     *
+     * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstName;
     /**
+     *  User lastname
+     *
+     * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastName;
     /**
+     * Account Roles
+     *
+     * @var string[]
      * @ORM\Column(type="json")
      */
     private $roles = [];
 
     /**
-     * @var string The hashed password
+     * Encrypt password
+     *
+     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     private $password;
 
     /**
+     * Account is autocreate by keycloak
+     *
+     * @var bool
      * @ORM\Column(type="boolean")
      */
     private $keycloakCreate=false;
@@ -107,6 +138,12 @@ class Account implements UserInterface
         return (string) $this->password;
     }
 
+    /**
+     * Set the value of password
+     *
+     * @param string $password
+     * @return self
+     */
     public function setPassword($password): self
     {
         $this->password = $password;
@@ -114,12 +151,23 @@ class Account implements UserInterface
         return $this;
     }
 
+    /**
+     * Add role to Account roles
+     *
+     * @param string $role
+     * @return void
+     */
     public function AddRole($role)
     {
         $this->roles[] = $role;
         array_unique($this->roles);
     }
 
+    /**
+     * Message for log integration
+     *
+     * @return string
+     */
     public function getLogMessage()
     {
         return $this->username.' (#'.$this->getId().')';
@@ -214,6 +262,11 @@ class Account implements UserInterface
         return $this;
     }
 
+    /**
+     * String Account representation
+     *
+     * @return string
+     */
     public function __toString()
     {
         $name=$this->firstName.' '.$this->lastName;
