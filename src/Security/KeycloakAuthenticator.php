@@ -6,13 +6,10 @@ namespace ICS\SsiBundle\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use ICS\SsiBundle\Entity\Account;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
-use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
 use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,19 +94,14 @@ class KeycloakAuthenticator extends SocialAuthenticator
         $targetUrl = $this->router->generate('homepage');
 
         return new RedirectResponse($targetUrl);
-
-        // or, on success, let the request continue to be handled by the controller
-        //return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
-        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
         return new RedirectResponse(
             $this->router->generate('ics_ssi_login'), // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT
         );
-        return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -123,6 +115,4 @@ class KeycloakAuthenticator extends SocialAuthenticator
             Response::HTTP_TEMPORARY_REDIRECT
         );
     }
-
-    // ...
 }

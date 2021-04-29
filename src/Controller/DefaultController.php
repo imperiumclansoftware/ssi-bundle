@@ -51,6 +51,7 @@ class DefaultController extends AbstractController
             ->redirect([
                 'email',
                 'profile',
+                'roles'
             ]);
     }
 
@@ -67,6 +68,7 @@ class DefaultController extends AbstractController
     */
     public function callback(ClientRegistry $clientRegistry)
     {
+        dump($clientRegistry);
         return $this->render('@Ssi/keycloak.html.twig');
     }
 }
