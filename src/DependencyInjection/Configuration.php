@@ -26,9 +26,9 @@ class Configuration implements ConfigurationInterface
         $treebuilder = new TreeBuilder('ssi');
         $rootNode =$treebuilder->getRootNode();
         $rootNode
-            ->children
+            ->children()
                 ->arrayNode('keycloak')
-                    ->children
+                    ->children()
                         ->booleanNode('auto_create_user')->defaultFalse()->end()
                     ->end()
                 ->end()
