@@ -194,3 +194,29 @@ ssi:
 ```
 
 by default unknow user as ignored.
+
+## Configure Active Directory authentification
+
+For enabled a Active Directory authentification add this lines in `.env` file :
+
+```bash
+    #Keycloak configuration
+
+    ACTIVE_DIRECTORY_HOST="<Active Directory domain controller IP or DNS name>"
+    ACTIVE_DIRECTORY_BASEDN="<User base DN (dc=example,dc=com)>"
+    ACTIVE_DIRECTORY_DOMAIN="<Active Directory short domain name>"
+
+```
+
+you can enabled Active Directory user auto creation :
+
+```yaml
+# config/packages/ssi.yaml
+
+ssi:
+  active_directory:
+    auto_create_user: true
+
+```
+
+by default unknow user as ignored.

@@ -25,6 +25,15 @@
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
     <label for="inputPassword">{{ 'Password'|trans }}</label>
     <input type="password" name="password" id="inputPassword" class="form-control" required>
+    {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') %}
+    <label for="domain">{{ 'Domaine' }}</label>
+    <select name="domain" class="form-control">
+        <option value="local">Local</option>
+        <option value="{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}" selected>{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}</option>
+    </select>
+    {% endif %}
+
+
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"

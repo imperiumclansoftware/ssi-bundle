@@ -33,7 +33,7 @@ use Doctrine\ORM\EntityManagerInterface;
  *
  * @package SsiBundle\Security
  */
-class LoginAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
+class ADAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
@@ -103,6 +103,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         $this->passwordEncoder = $passwordEncoder;
         $this->logger = $logger;
         $this->container = $container;
+        $this->config= $container->getParameter('ssi');
     }
 
     /**
@@ -118,7 +119,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
         if($baseSupport && $request->get('domain',false))
         {
-            $baseSupport=$baseSupport && $request->get('domain')=='local';
+            $baseSupport=$baseSupport && $request->get('domain')==$_ENV['ACTIVE_DIRECTORY_DOMAIN'];
         }
 
         return $baseSupport;
@@ -135,6 +136,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         $credentials = [
             'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),
+            'domain' => $request->request->get('domain'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
@@ -159,18 +161,56 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Account::class)->findOneBy(['username' => $credentials['username']]);
+        $ldap=\ldap_connect("ldap://".$_ENV['ACTIVE_DIRECTORY_HOST']);
+        ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
-        if (!$user) {
-            $this->container->get('monolog.logger.db')->info('Connexion error with username ' . $credentials['username'] . '.');
-            // fail authentication with a custom error
-            $this->container
-            ->get('monolog.logger.db')
-            ->warning('Connexion error from ' . $this->container->get('request_stack')->getCurrentRequest()->getClientIp().' with username "'.$credentials['username'].'"');
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
+        $ldapRdn=$credentials['domain']."\\".$credentials['username'];
+        if(@ldap_bind($ldap,$ldapRdn,$credentials['password']))
+        {
+            $filter="(sAMAccountName=".$credentials['username'].")";
+            $result = ldap_search($ldap,$_ENV['ACTIVE_DIRECTORY_BASEDN'],$filter);
+            ldap_sort($ldap,$result,"sn");
+
+            foreach(ldap_get_entries($ldap, $result) as $info)
+            {
+                $aduser=$info;
+            }
+
+            $user = $this->entityManager->getRepository(Account::class)->findOneBy(['username' => $credentials['username']]);
+
+            if(!$user && $aduser!= null && $this->config['active_directory']['auto_create_user'])
+            {
+                $user=new Account();
+                $user->setUsername($aduser['samaccountname'][0]);
+                $user->setFirstName($aduser['givenname'][0]);
+                $user->setLastName($aduser['sn'][0]);
+
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+
+                $this->container
+                ->get('monolog.logger.db')
+                ->info('Create user ' . $user->getUsername().' with active directory authentification.');
+            }
+            else if(!$user && $aduser==null)
+            {
+                throw new CustomUserMessageAuthenticationException('Active Directory authentification success but user unknow in local database.');
+                return null;
+            }
+
+            return $user;
         }
-
-        return $user;
+        else
+        {
+            $this->container->get('monolog.logger.db')->info('Connexion error with username ' . $credentials['username'] . '.');
+                // fail authentication with a custom error
+                $this->container
+                ->get('monolog.logger.db')
+                ->warning('Connexion error from ' . $this->container->get('request_stack')->getCurrentRequest()->getClientIp().' with username "'.$credentials['username'].'"');
+                throw new CustomUserMessageAuthenticationException('Username could not be found.');
+            return null;
+        }
     }
     /**
      * Check if login/password has valid
@@ -181,7 +221,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return isset($credentials['password']);
     }
 
     /**

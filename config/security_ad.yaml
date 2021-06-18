@@ -1,0 +1,6 @@
+security:
+    firewalls:
+        main:
+            guard:
+                authenticators:
+                    - ICS\SsiBundle\Security\ADAuthenticator

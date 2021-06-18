@@ -8,11 +8,11 @@ namespace ICS\SsiBundle\DependencyInjection;
  * @author David Dutas <david.dutas@gmail.com>
  */
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
 
 /**
  * SsiBundle extension
@@ -61,6 +61,11 @@ class SsiExtension extends Extension implements PrependExtensionInterface
         {
             $loader->load('security_keyloak.yaml');
             $loader->load('knpu_oauth2_client.yaml');
+        }
+
+        if(isset($_ENV['ACTIVE_DIRECTORY_HOST']) && $_ENV['ACTIVE_DIRECTORY_HOST']!=null)
+        {
+            $loader->load('security_ad.yaml');
         }
     }
 }

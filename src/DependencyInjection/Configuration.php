@@ -8,8 +8,8 @@ namespace ICS\SsiBundle\DependencyInjection;
  * @author David Dutas <david.dutas@gmail.com>
  */
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 /**
  * SsiBundle configuration
@@ -28,6 +28,11 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('keycloak')
+                    ->children()
+                        ->booleanNode('auto_create_user')->defaultFalse()->end()
+                    ->end()
+                ->end()
+                ->arrayNode('active_directory')
                     ->children()
                         ->booleanNode('auto_create_user')->defaultFalse()->end()
                     ->end()
