@@ -21,7 +21,7 @@ security:
             guard:
                 authenticators:
                     - ICS\SsiBundle\Security\LoginAuthenticator
-                entry_point: ICS\SsiBundle\Security\LoginAuthenticator
+            entry_point: ICS\SsiBundle\Security\LoginAuthenticator
             logout:
                 path: ics_ssi_logout
                 # where to redirect after logout

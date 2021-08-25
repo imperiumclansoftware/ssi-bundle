@@ -2,7 +2,7 @@
     "name": "ics/ssi-bundle",
     "description": "Bundle security extention",
     "type": "symfony-bundle",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "license": "MIT",
     "authors": [
         {
