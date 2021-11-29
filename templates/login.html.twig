@@ -1,66 +1,135 @@
-{% extends 'base.html.twig' %}
-
+{% extends "base.html.twig" %}
 {% trans_default_domain('ssi') %}
 
 {% block title %}{{ 'Sign-in'|trans }}{% endblock %}
 
+{% block stylesheets %}
+<style>
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+.login,
+.image {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url('{{ asset('bundles/ssi/images/login_bg.jpg') }}');
+  background-size: cover;
+  background-position: center center;
+}
+</style>
+
+
+{% endblock %}
+
 {% block body %}
-<div class="container-fluid mt-md-3">
-<div class="row">
-<div class="col-12 col-md-4 offset-md-4 card p-3 pt-1 bg-dark text-light">
-<h1 class="text-center text-capitalize my-3">{{'Welcone'|trans}}</h1>
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div class="container-fluid">
+        <div class="row no-gutter">
+            <!-- The image half -->
+            <div class="col-md-6 d-none d-md-flex bg-image"></div>
+            <!-- The content half -->
+            <div class="col-md-6 bg-light">
+                <div class="login d-flex align-items-center py-5">
+                     {% if app.user %}
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-10 col-xl-7 mx-auto">
+                                    <div class="text-info mb-3">
+                                        {{ 'You are logged in as'|trans}} {{ app.user.username }}, <a href="{{ path('app_logout') }}">{{ 'Sign-out'|trans }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- Demo content-->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-10 col-xl-7 mx-auto">
+                                    <h3 class="display-4">{{ 'Sign in'|trans }}</h3>
+                                    <p class="text-muted mb-4">Access to your application.</p>
+                                    {% if error %}
+                                        <div class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
+                                    <form method="post">
+                                        <div class="form-group mb-3">
+                                            <input type="text" placeholder="{{ 'Username'|trans }}" value="{{ last_username }}" name="username" id="inputUsername" class="form-control rounded-pill border-0 shadow-sm px-4" required autofocus>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <input type="password" placeholder="{{ 'Password'|trans }}" name="password" id="inputPassword" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary" required>
+                                        </div>
+                                        {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') %}
+                                        <div id="domainSelect" class="form-group mb-3 d-none">
+                                            <select name="domain" class="form-select rounded-pill border-0 shadow-sm px-4">
+                                                <option value="{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}" selected>{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
+                                        {# <div class="custom-control custom-checkbox mb-3">
+                                            <input id="customCheck1" type="checkbox" checked class="custom-control-input">
+                                            <label for="customCheck1" class="custom-control-label">Remember password</label>
+                                        </div> #}
+                                        <button id="submitLocal" type="submit" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm w-100">
+                                            <i class="fa fa-user"></i> {{ 'Sign in'|trans }}
+                                        </button>
+                                        {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') %}
+                                            <button id="submitAd" type="submit" class="btn btn-info text-light btn-block text-uppercase mb-2 rounded-pill shadow-sm w-100 d-none">
+                                                {{ 'Sign in'|trans }} with <i class="fab fa-windows"></i> Active Directory
+                                            </button>
+                                        {% endif %}
+                                        <!-- Text Divider -->
+                                        <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+                                            <div class="border-bottom w-100 ml-5"></div>
+                                            <span class="px-2 small text-muted font-weight-bold text-muted">{{ 'OR'|trans }}</span>
+                                            <div class="border-bottom w-100 mr-5"></div>
+                                        </div>
+                                        <!-- End -->
+                                        {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') %}
+                                            <button id="adButton" type="button" class="btn btn-info text-light text-center btn-block text-uppercase mb-2 rounded-pill shadow-sm w-100">
+                                                <i class="fab fa-windows"></i> Active Directory
+                                            </button>
+                                            <button id="localButton" type="button" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm w-100 d-none">
+                                                <i class="fa fa-user"></i> Local account
+                                            </button>
+                                            <script>
+                                                $(document).ready(function(){
+                                                    
+                                                    $("#adButton").click(function(){
+                                                        $("#localButton").removeClass('d-none');
+                                                        $("#domainSelect").removeClass('d-none');
+                                                        $("#submitAd").removeClass('d-none');
+                                                        $("#adButton").addClass('d-none');
+                                                        $('#submitLocal').addClass('d-none');
+                                                    });
 
-    {% if app.user %}
-        <div class="mb-3">
-            {{ 'You are logged in as'|trans}} {{ app.user.username }}, <a href="{{ path('app_logout') }}">{{ 'Sign-out'|trans }}</a>
+                                                    $("#localButton").click(function(){
+                                                        $("#adButton").removeClass('d-none');
+                                                        $('#submitLocal').removeClass('d-none');
+                                                        $("#domainSelect").addClass('d-none');
+                                                        $("#localButton").addClass('d-none');
+                                                        $("#submitAd").addClass('d-none');
+                                                    });
+
+                                                });
+                                            </script>
+                                        {% endif %}
+                                        <a href="{{ path('ics_ssi_login_keycloak') }}" class="btn btn-secondary btn-block text-uppercase mb-2 rounded-pill shadow-sm w-100">
+                                            <i class="fab fa-keycdn"></i> Keycloak
+                                        </a>
+
+                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                    </form>
+                                </div>
+                            </div>
+                        </div><!-- End -->
+                    {% endif %}
+                </div>
+            </div><!-- End -->
+
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">{{'Please sign in'|trans }}</h1>
-    <label for="inputUsername">{{ 'Username'|trans }}</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-    <label for="inputPassword">{{ 'Password'|trans }}</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
-    {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') %}
-    <label for="domain">{{ 'Domaine' }}</label>
-    <select name="domain" class="form-control">
-        <option value="local">Local</option>
-        <option value="{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}" selected>{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}</option>
-    </select>
-    {% endif %}
-
-
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-outline-light mt-3 float-right" type="submit">
-        {{ 'Sign-in'|trans }}
-    </button>
-</form>
-</div>
-</div>
-<div class="row">
-{% if keycloak %}
-    <div class="col-12 mt-3 text-center">
-        <a class="btn btn-secondary" href="{{ path('ics_ssi_login_keycloak') }}"><i class="fab fa-keycdn"></i> Authenticate by Keycloak</a>
     </div>
-{% endif %}
-</div>
 {% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain('ssi') %}
+
+{% block title %}{{ 'Sign-in'|trans }}{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-md-3">
+<div class="row">
+<div class="col-12 col-md-4 offset-md-4 card p-3 pt-1 bg-dark text-light">
+<h1 class="text-center text-capitalize my-3">{{'Welcone'|trans}}</h1>
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            {{ 'You are logged in as'|trans}} {{ app.user.username }}, <a href="{{ path('app_logout') }}">{{ 'Sign-out'|trans }}</a>
+        </div>
+    {% endif %}
+
+    <h1 class="h3 mb-3 font-weight-normal">{{'Please sign in'|trans }}</h1>
+    <label for="inputUsername">{{ 'Username'|trans }}</label>
+    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
+    <label for="inputPassword">{{ 'Password'|trans }}</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" required>
+    {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') %}
+    <label for="domain">{{ 'Domaine' }}</label>
+    <select name="domain" class="form-control">
+        <option value="local">Local</option>
+        <option value="{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}" selected>{{ app.request.server.get('ACTIVE_DIRECTORY_DOMAIN') }}</option>
+    </select>
+    {% endif %}
+
+
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
+
+    <button class="btn btn-lg btn-outline-light mt-3 float-right" type="submit">
+        {{ 'Sign-in'|trans }}
+    </button>
+</form>
+</div>
+</div>
+<div class="row">
+{% if keycloak %}
+    <div class="col-12 mt-3 text-center">
+        <a class="btn btn-secondary" href="{{ path('ics_ssi_login_keycloak') }}"><i class="fab fa-keycdn"></i> Authenticate by Keycloak</a>
+    </div>
+{% endif %}
+</div>
+{% endblock %}
