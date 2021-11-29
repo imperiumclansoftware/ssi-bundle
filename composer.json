@@ -2,7 +2,7 @@
     "name": "ics/ssi-bundle",
     "description": "Bundle security extention",
     "type": "symfony-bundle",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "license": "MIT",
     "authors": [
         {
@@ -35,9 +35,9 @@
         "symfony/console": "^5.2",
         "symfony/monolog-bundle": "^3.6",
         "symfony/security-bundle": "^5.2",
-        "ics/navigation-bundle": "^0.0.5",
+        "ics/navigation-bundle": "^0",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "ics/dashboard-bundle": "^0.0.3",
+        "ics/dashboard-bundle": "^0",
         "stevenmaguire/oauth2-keycloak": "^2.2",
         "knpuniversity/oauth2-client-bundle": "^2.8"
     },
