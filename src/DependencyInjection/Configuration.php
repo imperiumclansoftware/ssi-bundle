@@ -27,6 +27,7 @@ class Configuration implements ConfigurationInterface
         $rootNode =$treebuilder->getRootNode();
         $rootNode
             ->children()
+                ->scalarNode('profileEntity')->defaultNull()->end()
                 ->arrayNode('keycloak')
                     ->children()
                         ->booleanNode('auto_create_user')->defaultFalse()->end()

@@ -79,6 +79,8 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
      */
     private $logger;
 
+    private $config;
+
     /**
      * LoginAuthenticator constructor
      *
@@ -103,6 +105,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         $this->passwordEncoder = $passwordEncoder;
         $this->logger = $logger;
         $this->container = $container;
+        $this->config = $container->getParameter('ssi');
     }
 
     /**
@@ -168,6 +171,14 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
             ->get('monolog.logger.db')
             ->warning('Connexion error from ' . $this->container->get('request_stack')->getCurrentRequest()->getClientIp().' with username "'.$credentials['username'].'"');
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
+        }
+
+        if($this->config['profileEntity'] != null && $this->config['profileEntity'] != "" && $user->getProfile() == null)
+        {
+            $user->setProfile(new $this->config['profileEntity']());
+            dump($user);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
         }
 
         return $user;

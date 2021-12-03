@@ -49,20 +49,6 @@ class Account implements UserInterface
      */
     private $email;
     /**
-     * User firstname
-     *
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $firstName;
-    /**
-     *  User lastname
-     *
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $lastName;
-    /**
      * Account Roles
      *
      * @var string[]
@@ -85,6 +71,19 @@ class Account implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $keycloakCreate=false;
+
+    /**
+     * Account is autocreate by Active Directory
+     *
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $AdCreate=false;
+
+    /**
+     * @ORM\OneToOne(targetEntity=AccountProfile::class,inversedBy="account", cascade={"persist"})
+     */
+    private $profile;
 
     /**
      * @return int User identifier
@@ -222,61 +221,8 @@ class Account implements UserInterface
         return $this;
     }
 
-    /**
-     * Get the value of firstName
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set the value of firstName
-     *
-     * @return  self
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of lastName
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set the value of lastName
-     *
-     * @return  self
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * String Account representation
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        $name=$this->firstName.' '.$this->lastName;
-
-        if($name=="")
-        {
-            $name= $this->getUsername();
-        }
-        return $name;
-    }
+    
+   
 
     /**
      * Get the value of keycloakCreate
@@ -296,5 +242,60 @@ class Account implements UserInterface
         $this->keycloakCreate = $keycloakCreate;
 
         return $this;
+    }
+
+    /**
+     * Get the value of profile
+     */ 
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+
+    /**
+     * Set the value of profile
+     *
+     * @return  self
+     */ 
+    public function setProfile($profile)
+    {
+        $this->profile = $profile;
+
+        return $this;
+    }
+
+    /**
+     * Get account is autocreate by Active Directory
+     *
+     * @return  bool
+     */ 
+    public function getAdCreate()
+    {
+        return $this->AdCreate;
+    }
+
+    /**
+     * Set account is autocreate by Active Directory
+     *
+     * @param  bool  $AdCreate  Account is autocreate by Active Directory
+     *
+     * @return  self
+     */ 
+    public function setAdCreate(bool $AdCreate)
+    {
+        $this->AdCreate = $AdCreate;
+
+        return $this;
+    }
+
+
+     /**
+     * String Account representation
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->profile->__toString();
     }
 }

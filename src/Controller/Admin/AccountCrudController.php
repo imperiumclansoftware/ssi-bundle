@@ -11,11 +11,13 @@ namespace ICS\SsiBundle\Controller\Admin;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use ICS\SsiBundle\Entity\Account;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -62,7 +64,7 @@ class AccountCrudController extends AbstractCrudController
 
         $roles = $this->getRoles($hierarchy);
 
-        return [
+        $result =  [
             IdField::new('id')
                 ->hideOnForm(),
             TextField::new('username')
@@ -74,8 +76,9 @@ class AccountCrudController extends AbstractCrudController
             BooleanField::new('keycloakCreate')
                 ->hideOnDetail()
                 ->hideOnForm(),
-            TextField::new('firstname'),
-            TextField::new('lastname'),
+            BooleanField::new('AdCreate')
+                ->hideOnDetail()
+                ->hideOnForm(),
             ChoiceField::new('roles')
                 ->setChoices($roles)
                 ->allowMultipleChoices()
@@ -89,6 +92,11 @@ class AccountCrudController extends AbstractCrudController
 
 
         ];
+
+        //TODO : Add Profile administration
+        //$result = array_merge($result,)
+    
+        return $result;
     }
 
     /**
@@ -105,7 +113,10 @@ class AccountCrudController extends AbstractCrudController
             ->add(
                 ChoiceFilter::new('roles')
                     ->setChoices($roles)
-            );
+            )
+            ->add(BooleanFilter::new('keycloakCreate'))
+            ->add(BooleanFilter::new('AdCreate'))
+        ;
     }
 
     /**

@@ -134,6 +134,14 @@ class KeycloakAuthenticator extends SocialAuthenticator
             $this->em->persist($user);
             $this->em->flush();
         }
+        
+        if($this->config['profileEntity'] != null && $this->config['profileEntity'] != "" && $user->getProfile() == null)
+        {
+            $user->setProfile(new $this->config['profileEntity']());
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        }
+
         return $user;
     }
 

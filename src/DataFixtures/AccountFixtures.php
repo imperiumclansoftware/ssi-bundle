@@ -45,7 +45,6 @@ class AccountFixtures extends Fixture
         $admin = new Account();
         $admin->setUsername('admin')
                 ->setEmail('administrateur@example.com')
-                ->setFirstName("Administrateur")
                 ->setPassword($this->encoder->encodePassword($admin,'adminPassword'))
                 ->setRoles(['ROLE_ADMIN']);
 
@@ -57,8 +56,6 @@ class AccountFixtures extends Fixture
             $user=new Account();
             $user->setUsername('user'.$i)
                     ->setEmail('user'.$i.'@example.com')
-                    ->setFirstName("Utilisateur")
-                    ->setLastName('Numero '.$i)
                     ->setPassword($this->encoder->encodePassword($user,'userPassword'))
                     ->setRoles(['ROLE_USER']);
             $manager->persist($user);

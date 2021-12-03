@@ -185,7 +185,7 @@ class ADAuthenticator extends AbstractFormLoginAuthenticator implements Password
                 $user->setUsername($aduser['samaccountname'][0]);
                 $user->setFirstName($aduser['givenname'][0]);
                 $user->setLastName($aduser['sn'][0]);
-
+                $user->setAdCreate(true);
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
@@ -197,6 +197,13 @@ class ADAuthenticator extends AbstractFormLoginAuthenticator implements Password
             {
                 throw new CustomUserMessageAuthenticationException('Active Directory authentification success but user unknow in local database.');
                 return null;
+            }
+
+            if($this->config['profileEntity'] != null && $this->config['profileEntity'] != "" && $user->getProfile() == null)
+            {
+                $user->setProfile(new $this->config['profileEntity']());
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
             }
 
             return $user;
