@@ -12,23 +12,22 @@
 
 
     <li class="list-group-item">
-    <div class="media">
-        <div class="media-left ml-3">
-            <i class="{{ class }} mr-3"></i>
-            <span class="text-muted">{{ log.createdAt|date('d/m/Y H:i') }}</span>
+        <div class="d-flex">
+            <div class="flex-shrink-0">
+                <i class="{{ class }} mr-3"></i>
+                <span class="text-muted">{{ log.createdAt|date('d/m/Y H:i') }}</span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+                {{ log.message }}
+            </div>
+            <div class="ms-auto flex-shrink-0 p-2">
+                {% if log.username %}
+                    <i class="fa fa-user"></i> {{ log.username }}
+                {% else %}
+                    <span class="text-warning"><i class="fa fa-ban"></i> {{ 'No User'|trans }}</span>
+                {% endif %}
+            </div>
         </div>
-        <div class="media-body ml-3 mr-3">
-            {{ log.message }}
-        </div>
-        <div class="media-right">
-        {% if log.username %}
-            <i class="fa fa-user"></i> {{ log.username }}
-        {% else %}
-            <span class="text-warning"><i class="fa fa-ban"></i> {{ 'No User'|trans }}</span>
-        {% endif %}
-
-        </div>
-    </div>
     </li>
 {% endfor %}
 </ul>
