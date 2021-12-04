@@ -183,8 +183,6 @@ class ADAuthenticator extends AbstractFormLoginAuthenticator implements Password
             {
                 $user=new Account();
                 $user->setUsername($aduser['samaccountname'][0]);
-                $user->setFirstName($aduser['givenname'][0]);
-                $user->setLastName($aduser['sn'][0]);
                 $user->setAdCreate(true);
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();

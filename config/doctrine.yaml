@@ -1,0 +1,9 @@
+doctrine:
+    orm:
+        mappings:
+            SsiBundle:
+                is_bundle: true
+                type: annotation
+                dir: 'src/Entity'
+                prefix: 'ICS\SsiBundle\Entity'
+                alias: Ssi

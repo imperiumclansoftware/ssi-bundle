@@ -8,10 +8,10 @@ namespace ICS\SsiBundle\Entity;
  * @author David Dutas <david.dutas@gmail.com>
  */
 
-use Doctrine\ORM\Mapping as ORM;
-use ICS\SsiBundle\Annotation\Log;
-use ICS\SsiBundle\Repository\AccountRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ICS\SsiBundle\Repository\AccountRepository;
+use ICS\SsiBundle\Annotation\Log;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class represent an user account for application access
@@ -76,7 +76,7 @@ class Account implements UserInterface
      * Account is autocreate by Active Directory
      *
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $AdCreate=false;
 
@@ -296,6 +296,11 @@ class Account implements UserInterface
      */
     public function __toString()
     {
-        return $this->profile->__toString();
+        if($this->profile != null)
+        {
+            return $this->profile->__toString();
+        }
+
+        return $this->getUsername();
     }
 }

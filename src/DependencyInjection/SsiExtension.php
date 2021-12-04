@@ -44,6 +44,7 @@ class SsiExtension extends Extension implements PrependExtensionInterface
         $bundles = $container->getParameter('kernel.bundles');
 
         $loader->load('security.yaml');
+        $loader->load('doctrine.yaml');
 
         if (isset($bundles['MonologBundle'])) {
             $loader->load('monolog.yaml');
@@ -55,6 +56,10 @@ class SsiExtension extends Extension implements PrependExtensionInterface
 
         if (isset($bundles['DashboardBundle'])) {
             $loader->load('dashboard.yaml');
+        }
+
+        if (isset($bundles['NavigationBundle'])) {
+            $loader->load('navigation.yaml');
         }
 
         if(isset($_ENV['KEYCLOAK_URL']) && $_ENV['KEYCLOAK_URL']!=null)

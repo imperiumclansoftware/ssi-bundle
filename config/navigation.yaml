@@ -1,0 +1,23 @@
+navigation:
+  usermenu:
+    activate: true
+    connexionroute: ics_ssi_login
+    autolib: true
+    childs:
+      admin:
+        lib: Administration
+        icon: fa fa-cogs
+        route: admin
+        roles: 
+          - ROLE_ADMIN
+      admindivider:
+        lib: divider
+        roles: 
+          - ROLE_ADMIN
+      logout:
+        lib: Sign-out
+        icon: fa fa-sign-out
+        route: ics_ssi_logout
+        roles: 
+          - ROLE_USER
+      

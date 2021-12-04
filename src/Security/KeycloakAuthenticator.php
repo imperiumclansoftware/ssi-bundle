@@ -8,20 +8,20 @@ namespace ICS\SsiBundle\Security;
  * @author David Dutas <david.dutas@gmail.com>
  */
 
-use Doctrine\ORM\EntityManagerInterface;
-use ICS\SsiBundle\Entity\Account;
-use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
-use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
+use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
+use KnpU\OAuth2ClientBundle\Client\Provider\KeycloakClient;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use ICS\SsiBundle\Entity\Account;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Keycloak Authenticator
@@ -129,8 +129,6 @@ class KeycloakAuthenticator extends SocialAuthenticator
             // Update user Infos for keyloack
             $tmpUser=$keycloakUser->toArray();
             $user->setUsername($tmpUser['preferred_username']);
-            $user->setFirstname($tmpUser['given_name']);
-            $user->setLastname($tmpUser['family_name']);
             $this->em->persist($user);
             $this->em->flush();
         }
