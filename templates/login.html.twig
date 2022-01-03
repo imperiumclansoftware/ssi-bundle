@@ -81,6 +81,7 @@
                                                 {{ 'Sign in'|trans }} with <i class="fab fa-windows"></i> Active Directory
                                             </button>
                                         {% endif %}
+                                        {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') or app.request.server.get('KEYCLOAK_URL') %} 
                                         <!-- Text Divider -->
                                         <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
                                             <div class="border-bottom w-100 ml-5"></div>
@@ -88,6 +89,7 @@
                                             <div class="border-bottom w-100 mr-5"></div>
                                         </div>
                                         <!-- End -->
+                                        {% endif %}
                                         {% if app.request.server.get('ACTIVE_DIRECTORY_HOST') %}
                                             <button id="adButton" type="button" class="btn btn-info text-light text-center btn-block text-uppercase mb-2 rounded-pill shadow-sm w-100">
                                                 <i class="fab fa-windows"></i> Active Directory
@@ -117,9 +119,11 @@
                                                 });
                                             </script>
                                         {% endif %}
+                                        {% if app.request.server.get('KEYCLOAK_URL') %}
                                         <a href="{{ path('ics_ssi_login_keycloak') }}" class="btn btn-secondary btn-block text-uppercase mb-2 rounded-pill shadow-sm w-100">
                                             <i class="fab fa-keycdn"></i> Keycloak
                                         </a>
+                                        {% endif %}
 
                                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                     </form>
