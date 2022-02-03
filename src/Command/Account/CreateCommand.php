@@ -8,17 +8,17 @@ namespace ICS\SsiBundle\Command\Account;
  * @author David Dutas <david.dutas@gmail.com>
  */
 
-use Doctrine\ORM\EntityManagerInterface;
-use ICS\SsiBundle\Entity\Account;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Command\Command;
+use ICS\SsiBundle\Entity\Account;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Create account command class
@@ -34,12 +34,6 @@ class CreateCommand  extends Command
      */
     protected static $defaultName = 'Ssi:User:Create';
     /**
-     * Command application container
-     *
-     * @var ContainerInterface
-     */
-    protected $container;
-    /**
      * Entity manager for data access
      *
      * @var EntityManagerInterface
@@ -48,7 +42,7 @@ class CreateCommand  extends Command
     /**
      * Class for account password encodage
      *
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     protected $encoder;
     /**
@@ -63,12 +57,11 @@ class CreateCommand  extends Command
      *
      * @param ContainerInterface $container
      * @param EntityManagerInterface $doctrine
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserPasswordHasherInterface $encoder
      */
-    public function __construct(ContainerInterface $container, EntityManagerInterface $doctrine, UserPasswordEncoderInterface $encoder)
+    public function __construct(EntityManagerInterface $doctrine, UserPasswordHasherInterface $encoder)
     {
         parent::__construct();
-        $this->container = $container;
         $this->doctrine = $doctrine;
         $this->encoder = $encoder;
     }
@@ -129,7 +122,7 @@ class CreateCommand  extends Command
 
         $user = new Account();
         $user->setUsername($username);
-        $user->setPassword($this->encoder->encodePassword($user, $password));
+        $user->setPassword($this->encoder->hashPassword($user, $password));
         if ($admin) {
             $user->AddRole('ROLE_ADMIN');
         }

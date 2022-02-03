@@ -20,11 +20,15 @@ abstract class AccountProfile
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\OneToOne(targetEntity=Account::class, mappedBy="profile")
      */
     private $account;
+    /**
+     * @var array
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $parameters=[];
 
     /**
      * Get identifier
@@ -73,5 +77,45 @@ abstract class AccountProfile
     public function __toString()
     {
         return $this->getAccount()->getUsername();
+    }
+
+    /**
+     * Get the value of parameters
+     *
+     * @return  array
+     */ 
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Set the value of parameters
+     *
+     * @param  array  $parameters
+     *
+     * @return  self
+     */ 
+    public function setParameters(array $parameters)
+    {
+        $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    public function getParameter(string $varName,$default=null)
+    {
+        if(key_exists($varName,$this->parameters))
+        {
+            return $this->parameters[$varName];
+        }
+
+        return $default;
+    }
+
+    public function setParameter(string $varName,$value)
+    {
+        $this->parameters[$varName]=$value;
+        return $this;
     }
 }

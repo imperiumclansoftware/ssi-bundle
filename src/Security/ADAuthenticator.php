@@ -18,9 +18,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -61,12 +61,6 @@ class ADAuthenticator extends AbstractFormLoginAuthenticator implements Password
      */
     private $csrfTokenManager;
     /**
-     * Password encoder
-     *
-     * @var UserPasswordEncoderInterface
-     */
-    private $passwordEncoder;
-    /**
      * Application container
      *
      * @var ContainerInterface
@@ -87,20 +81,17 @@ class ADAuthenticator extends AbstractFormLoginAuthenticator implements Password
      * @param LoggerInterface $logger
      * @param UrlGeneratorInterface $urlGenerator
      * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param UserPasswordEncoderInterface $passwordEncoder
      */
     public function __construct(
                         EntityManagerInterface $entityManager,
                         ContainerInterface $container,
                         LoggerInterface $logger,
                         UrlGeneratorInterface $urlGenerator,
-                        CsrfTokenManagerInterface $csrfTokenManager,
-                        UserPasswordEncoderInterface $passwordEncoder)
+                        CsrfTokenManagerInterface $csrfTokenManager)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder = $passwordEncoder;
         $this->logger = $logger;
         $this->container = $container;
         $this->config= $container->getParameter('ssi');

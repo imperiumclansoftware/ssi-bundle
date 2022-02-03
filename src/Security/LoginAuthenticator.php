@@ -18,9 +18,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -63,7 +63,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
     /**
      * Password encoder
      *
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     private $passwordEncoder;
     /**
@@ -89,7 +89,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
      * @param LoggerInterface $logger
      * @param UrlGeneratorInterface $urlGenerator
      * @param CsrfTokenManagerInterface $csrfTokenManager
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $passwordEncoder
      */
     public function __construct(
                         EntityManagerInterface $entityManager,
@@ -97,7 +97,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
                         LoggerInterface $logger,
                         UrlGeneratorInterface $urlGenerator,
                         CsrfTokenManagerInterface $csrfTokenManager,
-                        UserPasswordEncoderInterface $passwordEncoder)
+                        UserPasswordHasherInterface $passwordEncoder)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
@@ -176,7 +176,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         if($this->config['profileEntity'] != null && $this->config['profileEntity'] != "" && $user->getProfile() == null)
         {
             $user->setProfile(new $this->config['profileEntity']());
-            dump($user);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
@@ -217,6 +216,8 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         $this->container->get('monolog.logger.db')->info('User ' . $token->getUser()->getUsername() . ' connected.');
+        //$this->logger->info('User ' . $token->getUser()->getUsername() . ' connected.');
+
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);

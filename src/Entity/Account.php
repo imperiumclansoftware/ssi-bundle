@@ -9,6 +9,7 @@ namespace ICS\SsiBundle\Entity;
  */
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use ICS\SsiBundle\Repository\AccountRepository;
 use ICS\SsiBundle\Annotation\Log;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @Log(actions={"all"},property="logMessage")
  */
-class Account implements UserInterface
+class Account implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Identifier
@@ -132,11 +133,11 @@ class Account implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return (string) $this->password;
     }
-
+    
     /**
      * Set the value of password
      *
@@ -301,6 +302,11 @@ class Account implements UserInterface
             return $this->profile->__toString();
         }
 
+        return $this->getUsername();
+    }
+
+    public function getUserIdentifier(): string
+    {
         return $this->getUsername();
     }
 }

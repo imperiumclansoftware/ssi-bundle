@@ -8,16 +8,31 @@ navigation:
         lib: Administration
         icon: fa fa-cogs
         route: admin
+        order: 1
         roles: 
           - ROLE_ADMIN
       admindivider:
         lib: divider
+        order: 2
         roles: 
           - ROLE_ADMIN
+      userprofile:
+        lib: My profile
+        icon: fa fa-user
+        route: homepage
+        order: 3
+        roles: 
+          - ROLE_USER
+      logoutdivider:
+        lib: divider
+        order: 9999
+        roles: 
+          - ROLE_USER
       logout:
         lib: Sign-out
-        icon: fa fa-sign-out
+        icon: fas fa-sign-out-alt
         route: ics_ssi_logout
+        order: 10000
         roles: 
           - ROLE_USER
       

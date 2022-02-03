@@ -1,14 +1,13 @@
 security:
+    enable_authenticator_manager: true
     role_hierarchy:
         ROLE_USER: ~
         ROLE_ADMIN: [ROLE_USER]
-    encoders:
-        ICS\SsiBundle\Entity\Account:
-            algorithm: auto
+    password_hashers:
+        ICS\SsiBundle\Entity\Account: 'auto'
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         ssi_user_provider:
             entity:
                 class: ICS\SsiBundle\Entity\Account

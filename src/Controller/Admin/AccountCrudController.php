@@ -8,20 +8,21 @@ namespace ICS\SsiBundle\Controller\Admin;
  * @author David Dutas <david.dutas@gmail.com>
  */
 
-use Doctrine\ORM\EntityManagerInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
-use ICS\SsiBundle\Entity\Account;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use ICS\SsiBundle\Entity\Account;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Easyadmin Account management
@@ -33,16 +34,16 @@ class AccountCrudController extends AbstractCrudController
     /**
      * Encoder for Account password
      *
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     private $encoder;
 
     /**
      * Class constructor
      *
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserPasswordHasherInterface $encoder
      */
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder = $encoder;
     }
@@ -89,7 +90,8 @@ class AccountCrudController extends AbstractCrudController
                 ->setFormType(PasswordType::class)
                 ->setLabel('Password')
                 ->setHelp('Password complexity is necessary dor security.'),
-
+            AssociationField::new('profile')
+                ->hideOnIndex()
 
         ];
 
@@ -147,7 +149,7 @@ class AccountCrudController extends AbstractCrudController
     {
         if($user->getPassword()!=null)
         {
-            $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
+            $encodedPassword = $this->encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
         }
         parent::persistEntity($doctrine, $user);
@@ -160,7 +162,7 @@ class AccountCrudController extends AbstractCrudController
     {
         if($user->getPassword()!=null)
         {
-            $encodedPassword = $this->encoder->encodePassword($user, $user->getPassword());
+            $encodedPassword = $this->encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($encodedPassword);
         }
         parent::updateEntity($doctrine, $user);

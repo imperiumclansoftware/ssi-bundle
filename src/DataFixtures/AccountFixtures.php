@@ -8,10 +8,10 @@ namespace ICS\SsiBundle\DataFixtures;
  * @author David Dutas <david.dutas@gmail.com>
  */
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use ICS\SsiBundle\Entity\Account;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 /**
  * Class for Account fixtures
@@ -23,16 +23,16 @@ class AccountFixtures extends Fixture
     /**
      * Encoder for Account password
      *
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     private $encoder;
 
     /**
      * Class constructor
      *
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserPasswordHasherInterface $encoder
      */
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordHasherInterface $encoder)
     {
         $this->encoder=$encoder;
     }
@@ -45,7 +45,7 @@ class AccountFixtures extends Fixture
         $admin = new Account();
         $admin->setUsername('admin')
                 ->setEmail('administrateur@example.com')
-                ->setPassword($this->encoder->encodePassword($admin,'adminPassword'))
+                ->setPassword($this->encoder->hashPassword($admin,'adminPassword'))
                 ->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($admin);
@@ -56,7 +56,7 @@ class AccountFixtures extends Fixture
             $user=new Account();
             $user->setUsername('user'.$i)
                     ->setEmail('user'.$i.'@example.com')
-                    ->setPassword($this->encoder->encodePassword($user,'userPassword'))
+                    ->setPassword($this->encoder->hashPassword($user,'userPassword'))
                     ->setRoles(['ROLE_USER']);
             $manager->persist($user);
         }
