@@ -85,7 +85,11 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToOne(targetEntity=AccountProfile::class,inversedBy="account", cascade={"persist"})
      */
     private $profile;
-
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastActivity;
+    
     /**
      * @return int User identifier
      */
@@ -309,4 +313,22 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->getUsername();
     }
+	
+    function getLastActivity() {
+		return $this->lastActivity;
+	}
+
+	function setLastActivity($lastActivity) {
+		$this->lastActivity = $lastActivity;
+		return $this;
+	}
+
+    public function isActive()
+    {
+        // Delay during wich the user will be considered as still active
+        $delay = new \DateTime('2 minutes ago');
+
+        return ( $this->getLastActivity() > $delay );
+    }
+
 }

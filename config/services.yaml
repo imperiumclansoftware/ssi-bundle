@@ -18,9 +18,17 @@ services:
   ICS\SsiBundle\DataFixtures\:
     resource: "../src/DataFixtures"
     tags: ['controller.service_arguments']
+  # ICS\SsiBundle\Services\:
+  #   resource: "../src/Services"
+  #   tags: ['controller.service_arguments']
   ICS\SsiBundle\EventListener\DatabaseActivitySubscriber:
     autowire: true
     arguments: ['@service_container','@annotation_reader']
     tags:
         - { name: 'doctrine.event_subscriber' }
+  ICS\SsiBundle\EventListener\ActivityListener:
+    autowire: true
+    arguments: ['@security.token_storage','@doctrine.orm.default_entity_manager']
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
 
