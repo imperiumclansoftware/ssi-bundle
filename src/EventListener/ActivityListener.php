@@ -39,17 +39,22 @@ class ActivityListener implements EventSubscriberInterface
     */
     public function onKernelFinishRequest(FinishRequestEvent $event)
     {
-		$user = $this->tokenStorage->getToken()->getUser();
+		$this->updateUserActivity();
+    }
+
+    public function onKernelException(ExceptionEvent $event)
+    {
+        $this->updateUserActivity();
+    }
+
+    private function updateUserActivity()
+    {
+        $user = $this->tokenStorage->getToken()->getUser();
 
         if ($user instanceof Account) {
             $user->setLastActivity(new \DateTime());
             $this->doctrine->persist($user);
             $this->doctrine->flush();
 		}
-    }
-
-    public function onKernelException(ExceptionEvent $event)
-    {
-
     }
 }
