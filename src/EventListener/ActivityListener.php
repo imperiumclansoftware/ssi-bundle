@@ -49,12 +49,15 @@ class ActivityListener implements EventSubscriberInterface
 
     private function updateUserActivity()
     {
-        $user = $this->tokenStorage->getToken()->getUser();
+        if($this->tokenStorage->getToken() != null)
+        {
+            $user = $this->tokenStorage->getToken()->getUser();
 
-        if ($user instanceof Account) {
-            $user->setLastActivity(new \DateTime());
-            $this->doctrine->persist($user);
-            $this->doctrine->flush();
-		}
+            if ($user != null && $user instanceof Account) {
+                $user->setLastActivity(new \DateTime());
+                $this->doctrine->persist($user);
+                $this->doctrine->flush();
+            }
+        }
     }
 }

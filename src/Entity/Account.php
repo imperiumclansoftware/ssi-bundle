@@ -301,7 +301,7 @@ class Account implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function __toString()
     {
-        if($this->profile != null)
+        if($this->profile != null && trim($this->profile->__toString()) != "")
         {
             return $this->profile->__toString();
         }
