@@ -7,8 +7,10 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use ICS\SsiBundle\Entity\Account;
+use GuzzleHttp\Exception\RequestException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ActivityListener implements EventSubscriberInterface
@@ -44,5 +46,10 @@ class ActivityListener implements EventSubscriberInterface
             $this->doctrine->persist($user);
             $this->doctrine->flush();
 		}
+    }
+
+    public function onKernelException(ExceptionEvent $event)
+    {
+
     }
 }
